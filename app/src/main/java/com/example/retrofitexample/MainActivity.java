@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private RecyclerViewAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
+        adapter = new RecyclerViewAdapter();
+        adapter.setAdap
+
+
         getPosts();
         //getComments();
         //createPost();
@@ -81,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getPosts() {
-
         Map<String, String> parameters = new HashMap<>();
         parameters.put("userId", "1");
         parameters.put("_sort","id");
@@ -96,16 +100,27 @@ public class MainActivity extends AppCompatActivity {
                     //textView.setText("Code: " + response.code());
                     return;
                 }
+
                 List<Post> posts = response.body();
                 adapter.setPosts(posts);
 
+
+                Log.d("Titlee", "onResponse: " + posts.get(1).getTitle());
+//                for(Post post: posts) {
+//                    String content = "";
+//                    content += "ID: " + post.getId() + "\n";
+//                    content += "User ID: " + post.getUserId() + "\n";
+//                    content += "Title: " + post.getTitle() + "\n";
+//                    content += "Text: " + post.getText() + "\n\n";
+//                    textView.append(content);
+//                }
             }
+
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
-               // textView.setText(t.getMessage());
+                textView.setText(t.getMessage());
             }
         });
-
     }
 
     private void getComments() {
