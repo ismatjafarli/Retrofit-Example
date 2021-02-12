@@ -1,6 +1,7 @@
 package com.example.retrofitexample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -30,13 +31,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private JsonPlaceHolderApi jsonPlaceHolderApi;
     private TextView textView;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.text_view);
+        //textView = findViewById(R.id.text_view);
 
       Gson gson = new GsonBuilder().serializeNulls().create();
 
@@ -79,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getPosts() {
+
         Map<String, String> parameters = new HashMap<>();
         parameters.put("userId", "1");
         parameters.put("_sort","id");
         parameters.put("_order", "desc");
-
 
         Call<List<Post>> call = jsonPlaceHolderApi.getPosts(parameters);
 
@@ -91,26 +93,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if(!response.isSuccessful()) {
-                    textView.setText("Code: " + response.code());
+                    //textView.setText("Code: " + response.code());
                     return;
                 }
-
                 List<Post> posts = response.body();
-                for(Post post: posts) {
-                    String content = "";
-                    content += "ID: " + post.getId() + "\n";
-                    content += "User ID: " + post.getUserId() + "\n";
-                    content += "Title: " + post.getTitle() + "\n";
-                    content += "Text: " + post.getText() + "\n\n";
-                    textView.append(content);
-                }
-            }
+                adapter.setPosts(posts);
 
+            }
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
-                textView.setText(t.getMessage());
+               // textView.setText(t.getMessage());
             }
         });
+
     }
 
     private void getComments() {
