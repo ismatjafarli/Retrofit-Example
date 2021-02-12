@@ -1,6 +1,7 @@
 package com.example.retrofitexample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -39,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new RecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
+
+
+
         //textView = findViewById(R.id.text_view);
 
       Gson gson = new GsonBuilder().serializeNulls().create();
@@ -70,10 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        adapter = new RecyclerViewAdapter();
-        adapter.setAdap
-
-
         getPosts();
         //getComments();
         //createPost();
@@ -81,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         //updatePostPatch();
         //deletePost();
         //testGit
-
 
     }
 
@@ -105,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setPosts(posts);
 
 
-                Log.d("Titlee", "onResponse: " + posts.get(1).getTitle());
 //                for(Post post: posts) {
 //                    String content = "";
 //                    content += "ID: " + post.getId() + "\n";

@@ -37,6 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+        notifyDataSetChanged();
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
